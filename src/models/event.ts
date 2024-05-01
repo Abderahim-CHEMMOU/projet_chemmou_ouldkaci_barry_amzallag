@@ -2,15 +2,15 @@ import mongoose from "mongoose";
 import Joi from "joi";
 
 const eventSchema = new mongoose.Schema({
-    titre: String,
+    title: String,
     description: String,
-    date_debut: Date,
-    date_fin: Date,
+    start_date: Date,
+    end_date: Date,
     location: String,
     image: String,
     participants: [{ user_id: mongoose.Types.ObjectId, rating: Number }],
     average_rating: Number,
-    links: [{ titre: String, url: String }],
+    links: [{ title: String, url: String }],
     type: { type: String, enum: ["conférence", "concert", "réunion privée"] },
     max_participants: Number
 });
@@ -18,10 +18,10 @@ const eventSchema = new mongoose.Schema({
 export const Event = mongoose.model("Event", eventSchema);
 
 export const eventJoiSchema = Joi.object({
-  titre: Joi.string().required(),
+  title: Joi.string().required(),
   description: Joi.string().required(),
-  date_debut: Joi.date().required(),
-  date_fin: Joi.date().required(),
+  start_date: Joi.date().required(),
+  end_date: Joi.date().required(),
   location: Joi.string().required(),
   image: Joi.string(),
   participants: Joi.array().items(Joi.object({
@@ -30,7 +30,7 @@ export const eventJoiSchema = Joi.object({
   })),
   average_rating: Joi.number(),
   links: Joi.array().items(Joi.object({
-    titre: Joi.string().required(),
+    title: Joi.string().required(),
     url: Joi.string().required().uri() // Vérification que l'URL est valide
   })),
   type: Joi.string().valid("conférence", "concert", "réunion privée").required(),

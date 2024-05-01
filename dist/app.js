@@ -6,11 +6,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const userRoutes_1 = require("./routes/userRoutes");
 const mongo_config_1 = require("./config/mongo.config");
+const eventRoutes_1 = require("./routes/eventRoutes");
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 const port = 8080;
 (0, mongo_config_1.setMongoConnection)();
 (0, userRoutes_1.setUserRouting)(app);
+(0, eventRoutes_1.setEventRouting)(app);
 app.listen(port, () => {
     console.log(`serveur en écoute sur le port : ${port}`);
 });

@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 import Joi from "joi";
 
 const userSchema = new mongoose.Schema({
-  nom: String,
-  prenom: String,
+  last_name: String,
+  first_name: String,
   age: Number,
   email: String,
   password: String,
@@ -13,8 +13,8 @@ const userSchema = new mongoose.Schema({
 export const User = mongoose.model("User", userSchema);
 
 export const userJoiSchema = Joi.object({
-  nom: Joi.string().required(),
-  prenom: Joi.string().required(),
+  last_name: Joi.string().required(),
+  first_name: Joi.string().required(),
   age: Joi.number().integer().min(0),
   email: Joi.string().required(),
   password: Joi.string().required(),

@@ -7,8 +7,8 @@ exports.userJoiSchema = exports.User = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const joi_1 = __importDefault(require("joi"));
 const userSchema = new mongoose_1.default.Schema({
-    nom: String,
-    prenom: String,
+    last_name: String,
+    first_name: String,
     age: Number,
     email: String,
     password: String,
@@ -16,8 +16,8 @@ const userSchema = new mongoose_1.default.Schema({
 });
 exports.User = mongoose_1.default.model("User", userSchema);
 exports.userJoiSchema = joi_1.default.object({
-    nom: joi_1.default.string().required(),
-    prenom: joi_1.default.string().required(),
+    last_name: joi_1.default.string().required(),
+    first_name: joi_1.default.string().required(),
     age: joi_1.default.number().integer().min(0),
     email: joi_1.default.string().required(),
     password: joi_1.default.string().required(),
