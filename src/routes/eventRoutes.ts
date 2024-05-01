@@ -7,9 +7,9 @@ import { eventController } from "../controller/eventController";
 export const setEventRouting = (app) => {
   const endpoint = "events";
 
-  app.get(`/${endpoint}`, eventController.findAll);
-  app.get(`/${endpoint}/:id`, eventController.findById);
-  app.post(`/${endpoint}`, eventController.create);
-  app.patch(`/${endpoint}/:id`, eventController.update);
+  // app.get(`/${endpoint}`, eventController.findAll);
+  // app.get(`/${endpoint}/:id`, eventController.findById);
+  // app.post(`/${endpoint}`, eventController.create);
+  // app.patch(`/${endpoint}/:id`, eventController.update);
   app.delete(`/${endpoint}/:id`, eventController.delete);
 };
