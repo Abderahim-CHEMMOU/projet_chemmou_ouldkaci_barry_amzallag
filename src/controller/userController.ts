@@ -1,4 +1,4 @@
-import { Request, Response, Function } from "express";
+import { Request, Response, NextFunction } from "express";
 import { User } from "../models/user";
 
 /**
@@ -11,7 +11,7 @@ class UserController {
    * @param res
    * @param next
    */
-  findAll = async (req: Request, res: Response, next: Function) => {
+  findAll = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(200)
       .send(await User.find())
@@ -25,7 +25,7 @@ class UserController {
    * @param res
    * @param next
    */
-  findById = async (req: Request, res: Response, next: Function) => {
+  findById = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(200)
       .send(await User.findById(req.params.id))
@@ -39,7 +39,7 @@ class UserController {
    * @param res
    * @param next
    */
-  create = async (req: Request, res: Response, next: Function) => {
+  create = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(201)
       .send(await User.create(req.body))
@@ -76,7 +76,7 @@ class UserController {
    * @param res
    * @param next
    */
-  delete = async (req: Request, res: Response, next: Function) => {
+  delete = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(200)
       .send(await User.findByIdAndDelete(req.params.id))

@@ -10,7 +10,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
  */
 const setMongoConnection = () => {
     mongoose_1.default
-        .connect("mongodb://localhost:27017/application" // Assurez-vous de remplacer par le nom de votre base de données
+        .connect("mongodb://127.0.0.1/application" // Assurez-vous de remplacer par le nom de votre base de données
     )
         .then(() => {
         console.log("Connexion à la base de données réussie");

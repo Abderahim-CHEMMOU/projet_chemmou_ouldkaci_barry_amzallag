@@ -9,7 +9,7 @@ export const setEventRouting = (app) => {
 
   app.get(`/${endpoint}`, eventController.findAll);
   app.get(`/${endpoint}/:id`, eventController.findById);
-  app.post(`/${endpoint}`, eventController.create);
-  app.patch(`/${endpoint}/:id`, eventController.update);
-  app.delete(`/${endpoint}/:id`, eventController.delete);
+  // app.post(`/${endpoint}`, eventController.create);
+  // app.patch(`/${endpoint}/:id`, eventController.update);
+  // app.delete(`/${endpoint}/:id`, eventController.delete);
 };
