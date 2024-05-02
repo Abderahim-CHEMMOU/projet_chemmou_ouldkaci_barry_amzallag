@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import Joi from "joi";
 
-
 const eventSchema = new mongoose.Schema({
   title: String,
   description: String,
@@ -14,7 +13,6 @@ const eventSchema = new mongoose.Schema({
   type: { type: String, enum: ["conférence", "concert", "réunion privée"] },
   max_participants: Number
 });
-
 
 export const Event = mongoose.model("Event", eventSchema);
 

@@ -39,7 +39,33 @@ class EventController {
         }
     }
 
-    
+     findAll = async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const events = await Event.find();
+        res.status(200).json(events);
+      } catch (error) {
+        this.handleError(res, error);
+      }
+    };
+  
+    /**
+   * Récupération d'un événement par son ID
+   * @paramreq
+   * @paramres
+   * @paramnext
+   */
+  findById = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const event = await Event.findById(req.params.id);
+      if (!event) {
+        return res.status(404).json({ message: "Événement non trouvé" });
+      }
+      res.status(200).json(event);
+    } catch (error) {
+      this.handleError(res, error);
+    }
+  };
+  
     /**
      * Création d'un événement
      * @param req
