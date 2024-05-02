@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/img-redundant-alt */
 import mongoose from "mongoose";
 import React, { useEffect, useState } from "react";
+
 import {
   Alert,
   Button,
@@ -12,7 +13,8 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import "../styles/event.css";
+
+import "../../styles/event.css"
 
 type Event = {
   id: mongoose.Types.ObjectId;
