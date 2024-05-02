@@ -128,16 +128,17 @@ class EventController {
     } catch (error) {
       this.handleError(res, error);
     }
+  }
 
     /**
-   * un utilisateur Participer à un évenement 
+   * un utilisateur Participe à un évenement 
    * @param req Requête contenant l'ID de l'événement et de l'utilisateur à ajouter
    * @param res Réponse renvoyée au client
    * @param next Middleware suivant à appeler
    */
     participate = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const eventId = req.params.eventId;
+      const eventId = req.params.id;
       const userId = req.params.userId;
 
       // Vérifie si l'événement existe
@@ -166,7 +167,6 @@ class EventController {
       res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
-}
 }
  
 export const eventController = Object.freeze(new EventController());
