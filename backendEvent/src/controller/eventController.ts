@@ -98,6 +98,8 @@ class EventController {
 
   update = async (req: Request, res: Response, next: NextFunction) => {
     try {
+
+        
         const updatedEvent = await Event.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -105,6 +107,10 @@ class EventController {
         );
         if (!updatedEvent) {
             return res.status(404).json({ message: "Événement non trouvé" });
+        }
+        const validationResult = eventJoiSchema.validate(req.body);
+        if (validationResult.error) {
+          return res.status(400).json({ message: validationResult.error.details[0].message });
         }
         res.status(200).json(updatedEvent);
     } catch (error) {
@@ -208,6 +214,87 @@ class EventController {
             res.status(500).json({ error: "Erreur interne du serveur" });
         }
     };
+
+    /**
+   * Calcul du nombre de places restantes dans un événement
+   * @param req Requête HTTP
+   * @param res Réponse HTTP
+   * @param next Middleware suivant
+   */
+  calculateRemainingSeats = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const eventId = req.params.id;
+
+      // Trouver l'événement par son ID
+      const event = await Event.findById(eventId);
+
+      if (!event) {
+        return res.status(404).json({ message: "Événement non trouvé" });
+      }
+
+      // Calculer le nombre de places restantes
+      const remainingSeats = event.max_participants - event.participants.length;
+
+      res.status(200).json({ remainingSeats });
+    } catch (error) {
+      console.error("Erreur lors du calcul des places restantes :", error);
+      res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+  };
+
+  /**
+   * Noter un événement après sa fin
+   * @param req Requête HTTP
+   * @param res Réponse HTTP
+   * @param next Middleware suivant
+   */
+  rateEvent = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const eventId = req.params.id; // Récupérer l'ID de l'événement depuis les paramètres de la requête
+      const userId = req.params.userId; // Récupérer l'ID de l'utilisateur depuis les paramètres de la requête
+      const { rating } = req.body; // Récupérer la note
+
+      
+      // Vérifier que la note est dans la plage autorisée (1 à 5)
+      if (rating < 1 || rating > 5) {
+        return res.status(400).json({ message: "La note doit être comprise entre 1 et 5" });
+      }
+
+      // Trouver l'événement par son ID
+      const event = await Event.findById(eventId);
+
+      if (!event) {
+        return res.status(404).json({ message: "Événement non trouvé" });
+      }
+
+      // Vérifier si la date de fin de l'événement est antérieure à la date actuelle
+      const currentDate = new Date();
+      console.log("date et heure actuel: ", currentDate);
+      console.log("date et heure de fin d'event: ", event.end_date);
+
+      if (event.end_date > currentDate) {
+        return res.status(400).json({ message: "Vous ne pouvez pas encore noter cet événement que après ça fin" });
+      }
+
+      // Trouver le participant dans la liste des participants de l'événement
+      const participant = event.participants.find((participant) => participant.user_id.toString() === userId);
+
+      if (!participant) {
+        return res.status(404).json({ message: "Vous êtes pas participez à cet événement" });
+      }
+
+      // Mettre à jour la note du participant
+      participant.rating = rating;
+
+      // Sauvegarder les modifications
+      await event.save();
+
+      return res.status(200).json({ message: "Votre note a été enregistrée avec succès" });
+    } catch (error) {
+      console.error("Erreur lors de la notation de l'événement :", error);
+      res.status(500).json({ error: "Erreur interne du serveur" });
+    }
+  };
 }
  
 export const eventController = Object.freeze(new EventController());
