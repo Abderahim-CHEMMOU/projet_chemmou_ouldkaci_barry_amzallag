@@ -2,7 +2,8 @@
 
 import { Request, Response, NextFunction } from "express";
 import { Event, eventJoiSchema } from "../models/event";
- 
+import { User} from "../models/user";
+
 // Interface représentant la structure d'un participant dans un événement
 
 interface Participant {
@@ -141,16 +142,20 @@ class EventController {
       const eventId = req.params.id;
       const userId = req.params.userId;
 
-      // Vérifie si l'événement existe
+      // Vérifie si l'événement existe dans la base de données
       const event = await Event.findById(eventId);
       if (!event) {
         return res.status(404).json({ message: "Événement non trouvé" });
       }
 
-      // Vérifie si l'utilisateur existe dans le document users 
+      // Vérifie si l'utilisateur existe dans la base de données
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Utilisateur n'existe pas dans la base de données" });
+      }
 
       // Vérifie si l'utilisateur existe déjà dans la liste des participants
-      const existingParticipant = event.participants.find(participant => participant.user_id === userId);
+      const existingParticipant = event.participants.find(participant => participant.user_id.toString() === userId);
       if (existingParticipant) {
         return res.status(400).json({ message: "L'utilisateur participe déjà à cet événement" });
       }
@@ -167,6 +172,42 @@ class EventController {
       res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
+
+      /**
+     * Supprime un participant de la liste des participants d'un événement
+     * @param req Requête contenant l'ID de l'événement et de l'utilisateur à supprimer
+     * @param res Réponse renvoyée au client
+     * @param next Middleware suivant à appeler
+     */
+      removeParticipant = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const eventId = req.params.id;
+            const userId = req.params.userId;
+
+            // Vérifie si l'événement existe dans la base de données
+            const event = await Event.findById(eventId);
+            if (!event) {
+                return res.status(404).json({ message: "Événement non trouvé" });
+            }
+
+            // Vérifie si l'utilisateur existe déjà dans la liste des participants
+            const participantIndex = event.participants.findIndex(participant => participant.user_id.toString() === userId);
+            if (participantIndex === -1) {
+                return res.status(404).json({ message: "L'utilisateur n'est pas un participant de cet événement" });
+            }
+
+            // Supprime l'utilisateur de la liste des participants de l'événement
+            event.participants.splice(participantIndex, 1);
+
+            // Sauvegarde les modifications
+            await event.save();
+
+            res.status(200).json({ message: "Utilisateur supprimé de la liste des participants avec succès" });
+        } catch (error) {
+            console.error("Erreur lors de la suppression de l'utilisateur de la liste des participants :", error);
+            res.status(500).json({ error: "Erreur interne du serveur" });
+        }
+    };
 }
  
 export const eventController = Object.freeze(new EventController());
