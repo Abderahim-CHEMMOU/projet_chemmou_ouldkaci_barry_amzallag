@@ -6,7 +6,7 @@ import mongoose from "mongoose";
 export const setMongoConnection = () => {
   mongoose
     .connect(
-      "mongodb://localhost:27017/application" // Assurez-vous de remplacer par le nom de votre base de données
+      "mongodb://127.0.0.1/application" // Assurez-vous de remplacer par le nom de votre base de données
     )
     .then(() => {
       console.log("Connexion à la base de données réussie");

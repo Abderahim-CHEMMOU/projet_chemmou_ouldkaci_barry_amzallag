@@ -11,9 +11,11 @@ import {
   ListGroup,
   Row,
   Spinner,
+  Modal
 } from "react-bootstrap";
-import "../styles/event.css";
+import "../../styles/event.css";
 
+import { Link } from 'react-router-dom';
 type Event = {
   id: mongoose.Types.ObjectId;
   title: string;
@@ -33,7 +35,11 @@ const EventList: React.FC = () => {
   const [events, setEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [show, setShow] = useState(false);
 
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+  
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -73,6 +79,10 @@ const EventList: React.FC = () => {
     );
 
   return (
+    <>
+     <Button variant="primary" onClick={handleShow}>
+        Ouvrir le modal
+      </Button>
     <Container className="event-list-container">
       <h1 className="mb-4 text-center event-list-title">Events List</h1>
       <Row xs={1} md={2} lg={3} className="g-4">
@@ -139,6 +149,23 @@ const EventList: React.FC = () => {
         ))}
       </Row>
     </Container>
+    <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Titre du Modal</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Contenu du modal...
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Fermer
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Sauvegarder
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      </>
   );
 };
 
