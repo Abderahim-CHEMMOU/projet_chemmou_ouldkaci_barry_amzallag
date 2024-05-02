@@ -12,7 +12,7 @@ import {
   Row,
   Spinner,
 } from "react-bootstrap";
-import "../styles/event.css";
+import "../../styles/event.css";
 
 type Event = {
   id: mongoose.Types.ObjectId;
