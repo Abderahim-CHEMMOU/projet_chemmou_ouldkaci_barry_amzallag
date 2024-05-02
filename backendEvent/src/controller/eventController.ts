@@ -1,5 +1,12 @@
 import { Request, Response, NextFunction } from "express";
 import { Event, eventJoiSchema } from "../models/event";
+ 
+class EventController {
+ 
+  
+ 
+  
+
 
 // Interface représentant la structure d'un participant dans un événement
 interface Participant {
@@ -84,7 +91,22 @@ class EventController {
             this.handleError(res, error);
         }
     };
-
+  /**
+   * Suppression d'un événement
+   * @param req
+   * @param res
+   * @param next
+   */
+  delete = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const deletedEvent = await Event.findByIdAndDelete(req.params.id);
+      if (!deletedEvent) {
+        return res.status(404).json({ message: "Événement non trouvé" });
+      }
+      res.status(200).json(deletedEvent);
+    } catch (error) {
+      this.handleError(res, error);
+    }
   
 
     
@@ -128,4 +150,6 @@ class EventController {
   };
 }
 
+ 
 export const eventController = Object.freeze(new EventController());
+

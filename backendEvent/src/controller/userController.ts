@@ -1,3 +1,4 @@
+
 import { Request, Response, NextFunction } from "express";
 import { User } from "../models/user";
 
@@ -11,6 +12,7 @@ class UserController {
    * @param res
    * @param next
    */
+
   findAll = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(200)
@@ -25,6 +27,7 @@ class UserController {
    * @param res
    * @param next
    */
+
   findById = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(200)
@@ -39,6 +42,7 @@ class UserController {
    * @param res
    * @param next
    */
+
   create = async (req: Request, res: Response, next: NextFunction) => {
     res
       .status(201)

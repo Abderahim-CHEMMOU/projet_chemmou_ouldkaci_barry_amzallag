@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import Joi from "joi";
 
 const eventSchema = new mongoose.Schema({
+
   title: String,
   description: String,
   start_date: Date,
