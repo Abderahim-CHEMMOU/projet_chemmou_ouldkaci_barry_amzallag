@@ -1,4 +1,4 @@
-import { Request, Response, Function } from "express";
+import { Function, Request, Response } from "express";
 import { User } from "../models/user";
 
 /**

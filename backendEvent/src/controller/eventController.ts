@@ -2,12 +2,13 @@ import { Request, Response } from "express";
 import { Event } from "../models/event";
 
 class EventController {
-/**
+
+  /**
    * Mise à jour d'un événement
    * @param req
    * @param res
    */
-update = async (req: Request, res: Response) => {
+  update = async (req: Request, res: Response) => {
     try {
       const updatedEvent = await Event.findByIdAndUpdate(
         req.params.id,
@@ -23,7 +24,6 @@ update = async (req: Request, res: Response) => {
       res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
-
 
 }
 

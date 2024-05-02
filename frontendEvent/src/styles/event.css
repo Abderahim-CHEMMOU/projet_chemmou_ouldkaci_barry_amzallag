@@ -1,0 +1,38 @@
+/* Styles for EventList component */
+
+.event-list-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.event-list-title {
+    color: #007bff;
+    /* Bootstrap primary color */
+    font-weight: bold;
+}
+
+.event-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.event-card:hover {
+    transform: translateY(-10px);
+}
+
+.event-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.event-links .list-group-item:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.spinner,
+.error-alert {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}
