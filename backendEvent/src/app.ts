@@ -1,11 +1,15 @@
-import express from "express";
 
-import { setUserRouting } from "./routes/userRoutes";
+import cors from "cors";
+import express from "express";
 import { setMongoConnection } from "./config/mongo.config";
 import { setEventRouting } from "./routes/eventRoutes";
+import { setUserRouting } from "./routes/userRoutes";
 
 const app = express();
 app.use(express.json());
+
+app.use(cors());
+
 const port = 8080;
 
 setMongoConnection();

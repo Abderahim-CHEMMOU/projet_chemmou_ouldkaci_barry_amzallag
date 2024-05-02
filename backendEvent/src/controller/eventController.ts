@@ -1,20 +1,17 @@
+
+
 import { Request, Response, NextFunction } from "express";
 import { Event, eventJoiSchema } from "../models/event";
  
-class EventController {
- 
-  
- 
-  
-
-
 // Interface représentant la structure d'un participant dans un événement
+
 interface Participant {
     user_id: string;
     rating: number;
 }
-
+  
 class EventController {
+  
     private handleError(res: Response, error: Error, statusCode = 500, message = "Erreur interne du serveur") {
         console.error("Erreur :", error);
         return res.status(statusCode).json({ error: message });
@@ -91,12 +88,36 @@ class EventController {
             this.handleError(res, error);
         }
     };
+  
+  /**
+  * Mise à jour d'un événement
+  * @param req
+  * @param res
+  */
+
+  update = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const updatedEvent = await Event.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        if (!updatedEvent) {
+            return res.status(404).json({ message: "Événement non trouvé" });
+        }
+        res.status(200).json(updatedEvent);
+    } catch (error) {
+      this.handleError(res, error);
+    }
+};
+  
   /**
    * Suppression d'un événement
    * @param req
    * @param res
    * @param next
    */
+  
   delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const deletedEvent = await Event.findByIdAndDelete(req.params.id);
@@ -107,9 +128,6 @@ class EventController {
     } catch (error) {
       this.handleError(res, error);
     }
-  
-
-    
 
     /**
    * un utilisateur Participer à un évenement 
@@ -149,7 +167,7 @@ class EventController {
     }
   };
 }
-
+}
  
 export const eventController = Object.freeze(new EventController());
 

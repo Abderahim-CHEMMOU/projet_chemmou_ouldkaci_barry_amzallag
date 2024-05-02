@@ -1,0 +1,50 @@
+/* Enhanced Navbar Styling */
+
+.navbar {
+    background-color: #0056b3;
+    /* A deep blue shade */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+    /* Subtle shadow for depth */
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: #ffffff !important;
+    /* White color for brand for contrast */
+    font-size: 1.5em;
+    /* Larger font size for brand */
+}
+
+.nav-link {
+    color: #ffffff !important;
+    /* Ensuring high contrast for readability */
+    font-size: 1.1em;
+    /* Slightly larger font size for links */
+}
+
+.nav-link:hover {
+    color: #cce5ff !important;
+    /* Light blue for hover state */
+}
+
+.button-outline-success {
+    color: #28a745 !important;
+    /* Color adjustments for better contrast */
+    border-color: #28a745 !important;
+}
+
+.button-outline-success:hover {
+    background-color: #28a745;
+    color: #ffffff !important;
+}
+
+.button-outline-light {
+    color: #f8f9fa !important;
+    border-color: #f8f9fa !important;
+}
+
+.button-outline-light:hover {
+    background-color: #f8f9fa;
+    color: #343a40 !important;
+    /* Dark color for text on light background on hover */
+}
