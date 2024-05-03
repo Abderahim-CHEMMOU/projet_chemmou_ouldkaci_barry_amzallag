@@ -1,17 +1,26 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
+
 import React, { useState } from "react";
 import { Button, Card, Carousel, ListGroup, Modal } from "react-bootstrap";
-import { Event } from "../../models/event";
+import Event from "../../models/event";
 
 type EventItemProps = {
     event: Event;
+    onDelete: (id: string) => Promise<void>;
 };
 
-const EventItem: React.FC<EventItemProps> = ({ event }) => {
+const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
+
+
+    const handleDelete = async () => {
+        await onDelete(event._id);
+        handleClose();
+    };
+
 
     return (
         <>
@@ -37,7 +46,9 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
                         <strong>Location:</strong> {event.location}
                     </Card.Text>
                     <Card.Text>
-                        <strong>Location:</strong> {event.location}
+
+                        <strong>Type:</strong> {event.type}
+
                     </Card.Text>
                 </Card.Body>
             </Card>
@@ -52,11 +63,11 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
                     <div><strong>Start:</strong> {new Date(event.start_date).toLocaleDateString()}</div>
                     <div><strong>End:</strong> {new Date(event.end_date).toLocaleDateString()}</div>
                     <div><strong>Location:</strong> {event.location}</div>
-                    <div><strong>Type:</strong> {event.type?.type}</div>
+
+                    <div><strong>Type:</strong> {event.type}</div>
                     <div><strong>Max Participants:</strong> {event.max_participants}</div>
-                    {event.average_rating && (
-                        <div><strong>Average Rating:</strong> {event.average_rating.toFixed(1)}</div>
-                    )}
+                    <div><strong>Event note :</strong> {event.average_rating}</div>
+
                     {event.links && (
                         <ListGroup className="event-links">
                             {event.links.map((link, index) => (
@@ -68,6 +79,10 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
+
+                    <Button variant="danger" onClick={handleDelete}>
+                        Delete
+                    </Button>
                     <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
@@ -78,3 +93,6 @@ const EventItem: React.FC<EventItemProps> = ({ event }) => {
 };
 
 export default EventItem;
+
+
+
