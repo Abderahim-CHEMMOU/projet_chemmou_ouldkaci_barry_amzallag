@@ -2,7 +2,7 @@ interface Participant {
   user_id: number;
   rating: number;
 }
-
+ 
 interface Link {
   title: string;
   url: string;

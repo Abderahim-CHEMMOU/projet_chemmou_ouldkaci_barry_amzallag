@@ -82,4 +82,6 @@ const EventCard: React.FC = () => {
     );
 };
  
+
 export default EventCard;
+

@@ -13,6 +13,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
+
     const handleDelete = async () => {
         await onDelete(event._id);
         handleClose();
@@ -84,3 +85,4 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
 };
 
 export default EventItem;
+

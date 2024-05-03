@@ -1,11 +1,9 @@
-
-
 import { Request, Response, NextFunction } from "express";
 import { Event, eventJoiSchema } from "../models/event";
 import { User} from "../models/user";
 
 // Interface représentant la structure d'un participant dans un événement
-
+ 
 interface Participant {
     user_id: string;
     rating: number;
@@ -17,7 +15,7 @@ class EventController {
         console.error("Erreur :", error);
         return res.status(statusCode).json({ error: message });
     }
-
+ 
     /**
      * Calculer la note moyenne d'un événement à partir des notes données par les participants.
      * @param event L'événement pour lequel calculer la note moyenne.
@@ -26,7 +24,7 @@ class EventController {
     private calculateAverageRating(event: any): number {
         let totalRating = 0;
         let numParticipantsWithRating = 0;
-
+ 
         // Parcours des participants
         for (const participant of event.participants) {
             // Vérification si une note a été donnée
@@ -35,7 +33,7 @@ class EventController {
                 numParticipantsWithRating++;
             }
         }
-
+ 
         // Calcul de la note moyenne
         if (numParticipantsWithRating > 0) {
             return totalRating / numParticipantsWithRating;
@@ -44,12 +42,14 @@ class EventController {
         }
     }
 
+
     /**
  * Récupère tous les événements avec leur note moyenne.
  * @param req Requête HTTP.
  * @param res Réponse HTTP.
  * @param next Middleware suivant.
  */
+
 findAll = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Récupère tous les événements depuis la base de données
@@ -69,12 +69,14 @@ findAll = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+
 /**
  * Récupère un événement par son ID avec sa note moyenne.
  * @param req Requête HTTP.
  * @param res Réponse HTTP.
  * @param next Middleware suivant.
  */
+
 findById = async (req: Request, res: Response, next: NextFunction) => {
   try {
     // Récupère l'événement depuis la base de données par son ID
@@ -123,7 +125,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
   * @param req
   * @param res
   */
-
+ 
   update = async (req: Request, res: Response, next: NextFunction) => {
     try {
 
@@ -164,9 +166,9 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       this.handleError(res, error);
     }
   }
-
+ 
     /**
-   * un utilisateur Participe à un évenement 
+   * un utilisateur Participe à un évenement
    * @param req Requête contenant l'ID de l'événement et de l'utilisateur à ajouter
    * @param res Réponse renvoyée au client
    * @param next Middleware suivant à appeler
@@ -193,13 +195,13 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       if (existingParticipant) {
         return res.status(400).json({ message: "L'utilisateur participe déjà à cet événement" });
       }
-
+ 
       // Ajoute l'utilisateur à la liste des participants de l'événement
       event.participants.push({ user_id: userId, rating: 0 });
-
+ 
       // Sauvegarde les modifications
       await event.save();
-
+ 
       res.status(200).json({ message: "Utilisateur ajouté à l'événement avec succès" });
     } catch (error) {
       console.error("Erreur lors de l'ajout de l'utilisateur à l'événement :", error);
@@ -230,11 +232,13 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
                 return res.status(404).json({ message: "L'utilisateur n'est pas un participant de cet événement" });
             }
 
+
             // Supprime l'utilisateur de la liste des participants de l'événement
             event.participants.splice(participantIndex, 1);
 
             // Sauvegarde les modifications
             await event.save();
+
 
             res.status(200).json({ message: "Utilisateur supprimé de la liste des participants avec succès" });
         } catch (error) {
@@ -253,6 +257,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const eventId = req.params.id;
 
+
       // Trouver l'événement par son ID
       const event = await Event.findById(eventId);
 
@@ -262,6 +267,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
 
       // Calculer le nombre de places restantes
       const remainingSeats = event.max_participants - event.participants.length;
+
 
       res.status(200).json({ remainingSeats });
     } catch (error) {
@@ -288,6 +294,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
         return res.status(400).json({ message: "La note doit être comprise entre 1 et 5" });
       }
 
+
       // Trouver l'événement par son ID
       const event = await Event.findById(eventId);
 
@@ -295,10 +302,12 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
         return res.status(404).json({ message: "Événement non trouvé" });
       }
 
+
       // Vérifier si la date de fin de l'événement est antérieure à la date actuelle
       const currentDate = new Date();
       console.log("date et heure actuel: ", currentDate);
       console.log("date et heure de fin d'event: ", event.end_date);
+
 
       if (event.end_date > currentDate) {
         return res.status(400).json({ message: "Vous ne pouvez pas encore noter cet événement que après ça fin" });
@@ -326,4 +335,3 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
 }
  
 export const eventController = Object.freeze(new EventController());
-

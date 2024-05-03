@@ -7,13 +7,16 @@ export type EventSearchParams = {
     // Ajoutez d'autres paramètres de recherche au besoin
 };
 
+
 const EventSearch: React.FC<{ onSearch: (searchParams: EventSearchParams) => void }> = ({ onSearch }) => {
     const [searchParams, setSearchParams] = useState<EventSearchParams>({});
+
 
     const handleSearch = () => {
         // Appel de la fonction de recherche avec les paramètres actuels
         onSearch(searchParams);
     };
+
 
     const handleChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchParams({ ...searchParams, type: event.target.value });
@@ -22,6 +25,7 @@ const EventSearch: React.FC<{ onSearch: (searchParams: EventSearchParams) => voi
     const handleChangeStartDate = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearchParams({ ...searchParams, startDate: new Date(event.target.value) });
     };
+
 
     return (
         <Form>
@@ -43,3 +47,4 @@ const EventSearch: React.FC<{ onSearch: (searchParams: EventSearchParams) => voi
 };
 
 export default EventSearch;
+
