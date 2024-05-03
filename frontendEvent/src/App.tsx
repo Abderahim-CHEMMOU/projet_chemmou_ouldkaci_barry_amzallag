@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DashboardNavbar from './components/Dashboard/DashboardNavbar';
 import EventCard from "./components/eventComponents/EventCard";
-import CreateEvent from "./pages/CreateEvent";
-import DashboardNavbar from "./components/eventComponents/DashboardNavbar";
+import UserCard from "./components/userComponents/UserCard";
+import CreateUser from './Pages/CreateUser';
+
 
 function App() {
   return (
-    <Router> 
-        <DashboardNavbar/>
-        <Routes>
-          <Route path="/home" element={<EventCard />} />
-          {/* <Route path="/create-event" element={<CreateEvent id={''} showModal={false} setShowModal={true}/>} /> */}
-        </Routes>
+    <Router>
+      <DashboardNavbar/>
+      <Routes>
+        <Route path="/home" element={<EventCard />} />
+        <Route path="/users" element={<UserCard />} />
+        <Route path="/create-user" element={<CreateUser />} />
+      </Routes>
     </Router>
   );
 }
