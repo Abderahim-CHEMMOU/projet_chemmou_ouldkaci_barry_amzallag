@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Card, Carousel, Col, Container, ListGroup, Modal, Row, Spinner } from "react-bootstrap";
 import Event from "../../models/event";
@@ -11,6 +12,7 @@ const EventCard: React.FC = () => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(3);
  
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
@@ -50,6 +52,7 @@ const EventCard: React.FC = () => {
     const currentItems = events.slice(firstItemIndex, lastItemIndex);
  
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
+
     if (loading)
         return (
             <Spinner animation="border" className="spinner" role="status">
@@ -62,6 +65,7 @@ const EventCard: React.FC = () => {
                 {error}
             </Alert>
         );
+
  
     return (
         <Container className="event-list-container">

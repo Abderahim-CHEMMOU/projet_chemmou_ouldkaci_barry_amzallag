@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Button, Card, Carousel, ListGroup, Modal } from "react-bootstrap";
 import Event from "../../models/event";
@@ -8,6 +9,7 @@ type EventItemProps = {
 };
 
 const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
+
     const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
@@ -18,6 +20,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
         await onDelete(event._id);
         handleClose();
     };
+
 
     return (
         <>
@@ -43,7 +46,9 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
                         <strong>Location:</strong> {event.location}
                     </Card.Text>
                     <Card.Text>
+
                         <strong>Type:</strong> {event.type}
+
                     </Card.Text>
                 </Card.Body>
             </Card>
@@ -58,9 +63,11 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
                     <div><strong>Start:</strong> {new Date(event.start_date).toLocaleDateString()}</div>
                     <div><strong>End:</strong> {new Date(event.end_date).toLocaleDateString()}</div>
                     <div><strong>Location:</strong> {event.location}</div>
+
                     <div><strong>Type:</strong> {event.type}</div>
                     <div><strong>Max Participants:</strong> {event.max_participants}</div>
                     <div><strong>Event note :</strong> {event.average_rating}</div>
+
                     {event.links && (
                         <ListGroup className="event-links">
                             {event.links.map((link, index) => (
@@ -72,6 +79,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
                     )}
                 </Modal.Body>
                 <Modal.Footer>
+
                     <Button variant="danger" onClick={handleDelete}>
                         Delete
                     </Button>
@@ -85,4 +93,6 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
 };
 
 export default EventItem;
+
+
 

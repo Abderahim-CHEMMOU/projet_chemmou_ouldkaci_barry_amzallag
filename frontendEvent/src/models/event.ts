@@ -1,3 +1,5 @@
+
+import mongoose from "mongoose";
 interface Participant {
   user_id: number;
   rating: number;
@@ -50,3 +52,4 @@ export default class Event {
       this.average_rating = average_rating;
   }
 }
+
