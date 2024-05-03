@@ -1,13 +1,21 @@
-import DashboardNavbar from "./components/DashboardNavbar";
-import EventCard from "./components/EventCard";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import DashboardNavbar from './components/Dashboard/DashboardNavbar';
+import EventCard from "./components/eventComponents/EventCard";
+import UserCard from "./components/userComponents/UserCard";
+import CreateUser from './Pages/CreateUser';
+
 
 function App() {
-
   return (
-    <div>
+    <Router>
       <DashboardNavbar/>
-      <EventCard />
-    </div>
+      <Routes>
+        <Route path="/home" element={<EventCard />} />
+        <Route path="/users" element={<UserCard />} />
+        <Route path="/create-user" element={<CreateUser />} />
+      </Routes>
+    </Router>
   );
 }
 

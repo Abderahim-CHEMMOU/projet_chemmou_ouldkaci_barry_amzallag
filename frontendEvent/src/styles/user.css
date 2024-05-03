@@ -1,0 +1,38 @@
+/* Styles for UserList component */
+
+.user-list-container {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.user-list-title {
+    color: #007bff;
+    /* Bootstrap primary color */
+    font-weight: bold;
+}
+
+.user-card {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.user-card:hover {
+    transform: translateY(-10px);
+}
+
+.user-image {
+    height: 200px;
+    object-fit: cover;
+}
+
+.user-links .list-group-item:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.spinner,
+.error-alert {
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
+}

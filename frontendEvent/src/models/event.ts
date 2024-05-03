@@ -1,45 +1,42 @@
-import mongoose from "mongoose";
-
 interface Participant {
     user_id: number;
     rating: number;
 }
-
+ 
 interface Link {
     title: string;
     url: string;
 }
-
-interface EventType {
-    type: string;
-    enum: ["conférence", "concert", "réunion privée"];
-}
-
+ 
 export default class Event {
+    _id: string;
     title: string;
     description: string;
     start_date: Date;
     end_date: Date;
     location: string;
-    image?: string;
+    image: string;
     participants: Participant[];
-    average_rating?: number;
-    links?: Link[];
-    type?: EventType;
-    max_participants?: number;
-
+    links: Link[];
+    type: string;
+    max_participants: number;
+    average_rating: number;
+ 
     constructor(
+       _id: string,
         title: string,
         description: string,
         start_date: Date,
         end_date: Date,
         location: string,
         participants: Participant[],
-        image?: string,
-        links?: Link[],
-        type?: EventType,
-        max_participants?: number
+        image: string,
+        links: Link[],
+        type: string,
+        max_participants: number,
+        average_rating: number
     ) {
+        this._id = _id;
         this.title = title;
         this.description = description;
         this.start_date = start_date;
@@ -50,5 +47,6 @@ export default class Event {
         this.links = links;
         this.type = type;
         this.max_participants = max_participants;
+        this.average_rating = average_rating;
     }
 }
