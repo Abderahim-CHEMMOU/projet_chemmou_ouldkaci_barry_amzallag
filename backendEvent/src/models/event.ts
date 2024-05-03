@@ -13,7 +13,6 @@ const eventSchema = new mongoose.Schema({
   links: [{ title: String, url: String }],
   type: { type: String, enum: ["conférence", "concert", "réunion privée"] },
   max_participants: Number
-
 });
 
 export const Event = mongoose.model("Event", eventSchema);
