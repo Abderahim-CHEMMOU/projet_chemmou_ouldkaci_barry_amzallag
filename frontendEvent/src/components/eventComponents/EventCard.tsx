@@ -3,7 +3,7 @@ import { Alert, Button, Card, Carousel, Col, Container, ListGroup, Modal, Row, S
 import Event from "../../models/event";
 import EventItem from "./EventItem";
 import EventSearch from "./EventSearch"; // Importez EventSearch
-
+import CreateEvent from "../../Pages/CreateEvent";
 const EventCard: React.FC = () => {
     const [events, setEvents] = useState<Event[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

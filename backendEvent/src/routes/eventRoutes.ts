@@ -17,3 +17,4 @@ export const setEventRouting = (app) => {
   app.get(`/${endpoint}/remainingSeats/:id`, eventController.calculateRemainingSeats);
   app.patch(`/${endpoint}/:id/note/:userId`, eventController.rateEvent);
 
+}

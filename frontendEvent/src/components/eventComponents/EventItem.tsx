@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { Button, Card, Carousel, ListGroup, Modal } from "react-bootstrap";
 import Event from "../../models/event";
+import CreateUser from "../../Pages/CreateUser";
 
 type EventItemProps = {
     event: Event;
