@@ -1,23 +1,24 @@
 import React, { useState } from "react";
 import { Button, Card, Carousel, ListGroup, Modal } from "react-bootstrap";
 import Event from "../../models/event";
- 
+
 type EventItemProps = {
     event: Event;
     onDelete: (id: string) => Promise<void>;
 };
- 
+
 const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
     const [show, setShow] = useState(false);
- 
+
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
- 
+
+
     const handleDelete = async () => {
         await onDelete(event._id);
         handleClose();
     };
- 
+
     return (
         <>
             <Card className="event-card" onClick={handleShow}>
@@ -46,7 +47,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
                     </Card.Text>
                 </Card.Body>
             </Card>
- 
+
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>{event.title}</Modal.Title>
@@ -82,5 +83,6 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete }) => {
         </>
     );
 };
- 
+
 export default EventItem;
+
