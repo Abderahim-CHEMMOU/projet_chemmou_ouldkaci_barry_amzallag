@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Alert, Button, Card, Carousel, Col, Container, ListGroup, Modal, Row, Spinner } from "react-bootstrap";
 import Event from "../../models/event";
@@ -11,7 +10,10 @@ const EventCard: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [itemsPerPage] = useState<number>(3);
- 
+ const [show, setShow] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const handleClose = () => setShow(false);
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -47,6 +49,19 @@ const EventCard: React.FC = () => {
         }
     };
 
+    const openModal = () => {
+    setShowModal(true);
+  };
+
+  const handleSelectEvent = (event: Event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedEvent(null); // Réinitialiser l'événement sélectionné après la fermeture du modal
+  };
+    
     const lastItemIndex = currentPage * itemsPerPage;
     const firstItemIndex = lastItemIndex - itemsPerPage;
     const currentItems = events.slice(firstItemIndex, lastItemIndex);
@@ -69,6 +84,10 @@ const EventCard: React.FC = () => {
  
     return (
         <Container className="event-list-container">
+         <Button variant="primary" onClick={() => openModal()}>
+            crée un event
+          </Button>
+      {showModal && <CreateEvent id={""} showModal={showModal} setShowModal={closeModal} />}
             <h1 className="mb-4 text-center event-list-title">Events List</h1>
             <EventSearch onSearch={(searchParams) => console.log(searchParams)} /> {/* Inclure EventSearch ici */}
             <Row xs={1} md={2} lg={3} className="g-4">
