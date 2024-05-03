@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import DashboardNavbar from "./components/eventComponents/DashboardNavbar";
+import DashboardNavbar from './components/Dashboard/DashboardNavbar';
 import EventCard from "./components/eventComponents/EventCard";
 import UserCard from "./components/userComponents/UserCard";
 import CreateUser from './Pages/CreateUser';
