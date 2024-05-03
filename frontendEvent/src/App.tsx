@@ -10,7 +10,7 @@ function App() {
         <DashboardNavbar/>
         <Routes>
           <Route path="/home" element={<EventCard />} />
-          <Route path="/create-event" element={<CreateEvent />} />
+          {/* <Route path="/create-event" element={<CreateEvent id={''} showModal={false} setShowModal={true}/>} /> */}
         </Routes>
     </Router>
   );

@@ -16,8 +16,9 @@ import {
 import "../../styles/event.css";
 
 import { Link } from 'react-router-dom';
+import CreateEvent from "../../pages/CreateEvent";
 type Event = {
-  id: mongoose.Types.ObjectId;
+  _id: string;
   title: string;
   description: string;
   start_date: Date;
@@ -27,7 +28,7 @@ type Event = {
   participants: [{ user_id: mongoose.Types.ObjectId; rating: number }];
   average_rating?: number;
   links?: [{ title: string; url: string }];
-  type?: { type: string; enum: ["conférence", "concert", "réunion privée"] };
+  type?: string;
   max_participants?: number;
 };
 
@@ -36,10 +37,10 @@ const EventList: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-
+  const [showModal, setShowModal] = useState(false);
   const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  
+  const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
+
   useEffect(() => {
     const fetchEvents = async () => {
       try {
@@ -65,6 +66,19 @@ const EventList: React.FC = () => {
     // setEvents(updatedEvents);
   };
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const handleSelectEvent = (event: Event) => {
+    setSelectedEvent(event);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setSelectedEvent(null); // Réinitialiser l'événement sélectionné après la fermeture du modal
+  };
+
   if (loading)
     return (
       <Spinner animation="border" className="spinner" role="status">
@@ -80,9 +94,10 @@ const EventList: React.FC = () => {
 
   return (
     <>
-     <Button variant="primary" onClick={handleShow}>
-        Ouvrir le modal
+     <Button variant="primary" onClick={() => openModal()}>
+        crée un event
       </Button>
+      {showModal && <CreateEvent id={""} showModal={showModal} setShowModal={closeModal} />}
     <Container className="event-list-container">
       <h1 className="mb-4 text-center event-list-title">Events List</h1>
       <Row xs={1} md={2} lg={3} className="g-4">
@@ -115,7 +130,7 @@ const EventList: React.FC = () => {
                   <strong>Location:</strong> {event.location}
                 </Card.Text>
                 <Card.Text>
-                  <strong>Type:</strong> {event.type?.type}
+                  <strong>Type:</strong> {event.type}
                 </Card.Text>
                 <Card.Text>
                   <strong>Max Participants:</strong> {event.max_participants}
@@ -140,9 +155,13 @@ const EventList: React.FC = () => {
                     ))}
                   </ListGroup>
                 )}
-                <Button variant="danger" className="mt-2" onClick={() => handleDelete(event.id)}>
+                {/* <Button variant="danger" className="mt-2" onClick={() => handleDelete()}>
                   Delete Event
-                </Button>
+                </Button> */}
+                <Button variant="primary" onClick={() => openModal()}>
+                    modif l'event
+                  </Button>
+                  {showModal && <CreateEvent id={event._id} showModal={showModal} setShowModal={closeModal} />}
               </Card.Body>
             </Card>
           </Col>

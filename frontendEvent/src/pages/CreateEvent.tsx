@@ -1,8 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
+import mongoose from "mongoose";
+import { idText } from 'typescript';
 
-const CreateEvent: React.FC = () => {
-  const [formData, setFormData] = useState({
+
+type Event = {
+  _id: string;
+  title: string;
+  description: string;
+  start_date: Date;
+  end_date: Date;
+  location: string;
+  image?: string;
+  participants: [{ user_id: mongoose.Types.ObjectId; rating: number }];
+  average_rating?: number;
+  links?: [{ title: string; url: string }];
+  type?: string;
+  max_participants?: number;
+};
+
+interface CreateEventProps {
+  id: string;
+  showModal: boolean;
+  setShowModal: (show: boolean) => void; // Ajoutez setShowModal au type CreateEventProps
+}
+
+const CreateEvent: React.FC<CreateEventProps> = ({ id, showModal, setShowModal }) => { 
+   const [formData, setFormData] = useState({
     title: '',
     description: '',
     start_date: new Date().toISOString().slice(0, 16),
@@ -13,6 +37,40 @@ const CreateEvent: React.FC = () => {
     type: 'conférence',
     max_participants: 0,
   });
+
+//   useEffect(() => {
+//   const fetchEventById = async (id: string) => {
+//     try {
+//       const response = await fetch(`http://localhost:8080/events/${id}`);
+//       if (!response.ok) {
+//         throw new Error("Failed to fetch event");
+//       }
+//       const eventData = await response.json();
+//       console.log(eventData)
+//       // Mettre à jour formData avec les données de l'événement récupéré
+//       setFormData({
+//         title: eventData.title || '',
+//         description: eventData.description || '',
+//         start_date: eventData.start_date || new Date().toISOString().slice(0, 16),
+//         end_date: eventData.end_date || new Date().toISOString().slice(0, 16),
+//         location: eventData.location || '',
+//         image: eventData.image || '',
+//         links: eventData.links || [{ title: '', url: '' }],
+//         type: eventData.type || 'conférence',
+//         max_participants: eventData.max_participants || 0,
+//       });
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   };
+
+//   if (id) {
+//     // Appel de fetchEventById seulement si un ID d'événement est spécifié
+//     fetchEventById(id);
+//   }
+// }, []); // Tableau de dépendances vide
+
+  
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -55,7 +113,6 @@ const CreateEvent: React.FC = () => {
       }
       console.log('Événement créé avec succès!');
       handleCloseModal();
-      window.location.href = "/home"
     } catch (error) {
       console.error('Erreur:', error);
     }
@@ -68,22 +125,12 @@ const CreateEvent: React.FC = () => {
     });
   };
 
-  const [showModal, setShowModal] = useState(false);
 
-  const handleShowModal = () => setShowModal(true);
   const handleCloseModal = () => setShowModal(false);
+
 
   return (
     <div className="container">
-      <div className="row">
-        <div className="col text-center">
-          <h1>Créer un événement</h1>
-          <Button variant="primary" onClick={handleShowModal}>
-            Créer un événement
-          </Button>
-        </div>
-      </div>
-
       <Modal show={showModal} onHide={handleCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Créer un événement</Modal.Title>
