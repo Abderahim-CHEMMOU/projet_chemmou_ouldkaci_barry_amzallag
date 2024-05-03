@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 
 export default class Event {
+    _id: String;
     last_name: String;
     first_name: String;
     age: Number;
@@ -10,6 +11,7 @@ export default class Event {
 
 
     constructor(
+        _id: String,
         last_name: String,
         first_name: String,
         age: Number,
@@ -17,6 +19,7 @@ export default class Event {
         password: String,
         created_at:  Date,
     ) {
+        this._id= _id;
         this.last_name= last_name;
         this.first_name= first_name;
         this.age= age;

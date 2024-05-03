@@ -1,28 +1,12 @@
-/* eslint-disable jsx-a11y/img-redundant-alt */
-import mongoose from "mongoose";
 import React, { useEffect, useState } from "react";
-import {
-  Alert,
-  Button,
-  Card,
-  Carousel,
-  Col,
-  Container,
-  ListGroup,
-  Row,
-  Spinner,
-} from "react-bootstrap";
+import { Alert, Button, Card, Col, Container, Row, Spinner } from "react-bootstrap";
 import "../../styles/user.css";
 
 type User = {
-  id: mongoose.Types.ObjectId;
-  last_name: String;
-  first_name: String;
+  _id: string; // Utilisation de string pour l'ID pour simplifier
+  last_name: string;
+  first_name: string;
   age: number;
-  email: String;
-  password: String;
-  created_at:  Date;
-
 };
 
 const UserCard: React.FC = () => {
@@ -48,12 +32,25 @@ const UserCard: React.FC = () => {
     };
 
     fetchUsers();
-  }, [users]);
+  }, []);
 
-  const handleDelete = (id: mongoose.Types.ObjectId) => {
-    // const updatedUsers = events.filter(user => !user.id.equals(id));
-    // setUsers(updatedUsers);
+  const handleDelete = async (_id: string) => {
+    try {
+      const response = await fetch(`http://localhost:8080/users/${_id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error("Failed to delete user");
+      }
+      // Remove the deleted user from the state
+      setUsers((prevUsers) => prevUsers.filter((user) => user._id !== _id));
+    } catch (err) {
+      console.error(err);
+      setError("Failed to delete user");
+    }
   };
+
+  // You can add a similar function for handling user modification
 
   if (loading)
     return (
@@ -70,15 +67,16 @@ const UserCard: React.FC = () => {
 
   return (
     <Container className="user-list-container">
-      <h1 className="mb-4 text-center user-list-title">Events List</h1>
+      <h1 className="mb-4 text-center user-list-title">Users List</h1>
       <Row xs={1} md={2} lg={3} className="g-4">
-        {users.map((user, index) => (
-          <Col key={index}>
+        {users.map((user) => (
+          <Col key={user._id}>
             <Card className="user-card">
               <Card.Body>
-                <Card.Title>{user.last_name}</Card.Title>
-                <Card.Text>{user.first_name}</Card.Text>
-                <Card.Text>{user.age}</Card.Text>
+                <Card.Title>{`${user.last_name} ${user.first_name}`}</Card.Title>
+                <Card.Text>{`Age: ${user.age}`}</Card.Text>
+                <Button variant="danger" onClick={() => handleDelete(user._id)}>Delete</Button>
+                {/* Add a button for user modification */}
               </Card.Body>
             </Card>
           </Col>
