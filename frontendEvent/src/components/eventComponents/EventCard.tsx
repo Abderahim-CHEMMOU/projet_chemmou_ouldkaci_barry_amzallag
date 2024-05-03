@@ -23,6 +23,7 @@ const EventCard: React.FC = () => {
                     throw new Error("Failed to fetch events");
                 }
                 const data = await response.json();
+                console.log(data);
                 setEvents(data);
             } catch (err) {
                 setError("Failed to fetch events");
@@ -92,6 +93,7 @@ const EventCard: React.FC = () => {
             <EventSearch onSearch={(searchParams) => console.log(searchParams)} /> {/* Inclure EventSearch ici */}
             <Row xs={1} md={2} lg={3} className="g-4">
                 {currentItems.map((event, index) => (
+                    
                     <Col key={index}>
                         <EventItem event={event} onDelete={handleDelete} />
                     </Col>
