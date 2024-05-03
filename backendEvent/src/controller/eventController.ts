@@ -44,32 +44,60 @@ class EventController {
         }
     }
 
-     findAll = async (req: Request, res: Response, next: NextFunction) => {
-      try {
-        const events = await Event.find();
-        res.status(200).json(events);
-      } catch (error) {
-        this.handleError(res, error);
-      }
-    };
-  
     /**
-   * Récupération d'un événement par son ID
-   * @paramreq
-   * @paramres
-   * @paramnext
-   */
-  findById = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const event = await Event.findById(req.params.id);
-      if (!event) {
-        return res.status(404).json({ message: "Événement non trouvé" });
-      }
-      res.status(200).json(event);
-    } catch (error) {
-      this.handleError(res, error);
+ * Récupère tous les événements avec leur note moyenne.
+ * @param req Requête HTTP.
+ * @param res Réponse HTTP.
+ * @param next Middleware suivant.
+ */
+findAll = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Récupère tous les événements depuis la base de données
+    const events = await Event.find();
+
+    // Ajoute le champ average_rating à chaque événement
+    const eventsWithAverageRating = events.map(event => ({
+      ...event.toObject(),
+      average_rating: this.calculateAverageRating(event)
+    }));
+
+    // Renvoie les événements avec leur note moyenne
+    res.status(200).json(eventsWithAverageRating);
+  } catch (error) {
+    // Gère les erreurs et renvoie une réponse d'erreur appropriée
+    this.handleError(res, error);
+  }
+};
+
+/**
+ * Récupère un événement par son ID avec sa note moyenne.
+ * @param req Requête HTTP.
+ * @param res Réponse HTTP.
+ * @param next Middleware suivant.
+ */
+findById = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    // Récupère l'événement depuis la base de données par son ID
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      // Si l'événement n'est pas trouvé, renvoie une réponse 404
+      return res.status(404).json({ message: "Événement non trouvé" });
     }
-  };
+
+    // Ajoute le champ average_rating à l'événement trouvé
+    const eventWithAverageRating = {
+      ...event.toObject(),
+      average_rating: this.calculateAverageRating(event)
+    };
+
+    // Renvoie l'événement avec sa note moyenne
+    res.status(200).json(eventWithAverageRating);
+  } catch (error) {
+    // Gère les erreurs et renvoie une réponse d'erreur appropriée
+    this.handleError(res, error);
+  }
+};
+
   
     /**
      * Création d'un événement

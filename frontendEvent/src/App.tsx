@@ -1,4 +1,4 @@
-import DashboardNavbar from "./components/eventComponents/DashboardNavbar";
+import DashboardNavbar from "./components/Dashboad/DashboardNavbar";
 import EventCard from "./components/eventComponents/EventCard";
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
