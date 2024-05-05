@@ -3,11 +3,13 @@ import mongoose from "mongoose";
 interface Participant {
   user_id: number;
   rating: number;
+  _id: object;
 }
  
 interface Link {
   title: string;
   url: string;
+  _id: object;
 }
 
 export default class Event {
@@ -23,7 +25,6 @@ export default class Event {
   type: string;
   max_participants: number;
   average_rating: number;
-
   constructor(
      _id: string,
       title: string,
@@ -36,7 +37,7 @@ export default class Event {
       links: Link[],
       type: string,
       max_participants: number,
-      average_rating: number
+      average_rating: number,
   ) {
       this._id = _id;
       this.title = title;
