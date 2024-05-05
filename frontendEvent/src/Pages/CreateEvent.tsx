@@ -100,6 +100,7 @@ const CreateEvent: React.FC<CreateEventProps> = ({ id, showModal, setShowModal }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     try {
       const response = await fetch('http://localhost:8080/events/', {
         method: 'POST',
