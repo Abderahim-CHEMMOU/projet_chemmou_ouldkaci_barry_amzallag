@@ -62,8 +62,7 @@ findAll = async (req: Request, res: Response, next: NextFunction) => {
     }));
 
     // Renvoie les événements avec leur note moyenne
-    res.status(200).json(eventsWithAverageRating).end();
-    next();
+    res.status(200).json(eventsWithAverageRating);
   } catch (error) {
     // Gère les erreurs et renvoie une réponse d'erreur appropriée
     this.handleError(res, error);
@@ -84,7 +83,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
     const event = await Event.findById(req.params.id);
     if (!event) {
       // Si l'événement n'est pas trouvé, renvoie une réponse 404
-      return res.status(404).json({ message: "Événement non trouvé" }).end();
+      return res.status(404).json({ message: "Événement non trouvé" });
     }
 
     // Ajoute le champ average_rating à l'événement trouvé
@@ -94,8 +93,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
     };
 
     // Renvoie l'événement avec sa note moyenne
-    res.status(200).json(eventWithAverageRating).end();
-    next();
+    res.status(200).json(eventWithAverageRating);
   } catch (error) {
     // Gère les erreurs et renvoie une réponse d'erreur appropriée
     this.handleError(res, error);
@@ -115,8 +113,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
             
             const event = await Event.create(req.body);
 
-            res.status(201).json(event).end();
-            next();
+            res.status(201).json(event);
 
         } catch (error) {
             this.handleError(res, error);
@@ -138,15 +135,14 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
             { new: true }
         );
         if (!updatedEvent) {
-            return res.status(404).json({ message: "Événement non trouvé" }).end();
+            return res.status(404).json({ message: "Événement non trouvé" });
         }
         const validationResult = eventJoiSchema.validate(req.body);
         if (validationResult.error) {
-          return res.status(400).json({ message: validationResult.error.details[0].message }).end();
+          return res.status(400).json({ message: validationResult.error.details[0].message });
         }
 
-        res.status(200).json(updatedEvent).send(updatedEvent).end();
-        next();
+        res.status(200).json(updatedEvent);
 
     } catch (error) {
       this.handleError(res, error);
@@ -164,10 +160,9 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const deletedEvent = await Event.findByIdAndDelete(req.params.id);
       if (!deletedEvent) {
-        return res.status(404).json({ message: "Événement non trouvé" }).end();
+        return res.status(404).json({ message: "Événement non trouvé" });
       }
-      res.status(200).json(deletedEvent).end();
-      next();
+      res.status(200).json(deletedEvent);
     } catch (error) {
       this.handleError(res, error);
     }
@@ -187,19 +182,19 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       // Vérifie si l'événement existe dans la base de données
       const event = await Event.findById(eventId);
       if (!event) {
-        return res.status(404).json({ message: "Événement non trouvé" }).end();
+        return res.status(404).json({ message: "Événement non trouvé" });
       }
 
       // Vérifie si l'utilisateur existe dans la base de données
       const user = await User.findById(userId);
       if (!user) {
-        return res.status(404).json({ message: "Utilisateur n'existe pas dans la base de données" }).end();
+        return res.status(404).json({ message: "Utilisateur n'existe pas dans la base de données" });
       }
 
       // Vérifie si l'utilisateur existe déjà dans la liste des participants
       const existingParticipant = event.participants.find(participant => participant.user_id.toString() === userId);
       if (existingParticipant) {
-        return res.status(400).json({ message: "L'utilisateur participe déjà à cet événement" }).end();
+        return res.status(400).json({ message: "L'utilisateur participe déjà à cet événement" });
       }
  
       // Ajoute l'utilisateur à la liste des participants de l'événement
@@ -208,11 +203,10 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       // Sauvegarde les modifications
       await event.save();
  
-      res.status(200).json({ message: "Utilisateur ajouté à l'événement avec succès" }).end();
-      next();
+      res.status(200).json({ message: "Utilisateur ajouté à l'événement avec succès" });
     } catch (error) {
       console.error("Erreur lors de l'ajout de l'utilisateur à l'événement :", error);
-      res.status(500).json({ error: "Erreur interne du serveur" }).end();
+      res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
 
@@ -230,13 +224,13 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
             // Vérifie si l'événement existe dans la base de données
             const event = await Event.findById(eventId);
             if (!event) {
-                return res.status(404).json({ message: "Événement non trouvé" }).end();
+                return res.status(404).json({ message: "Événement non trouvé" });
             }
 
             // Vérifie si l'utilisateur existe déjà dans la liste des participants
             const participantIndex = event.participants.findIndex(participant => participant.user_id.toString() === userId);
             if (participantIndex === -1) {
-                return res.status(404).json({ message: "L'utilisateur n'est pas un participant de cet événement" }).end();
+                return res.status(404).json({ message: "L'utilisateur n'est pas un participant de cet événement" });
             }
 
 
@@ -247,10 +241,10 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
             await event.save();
 
 
-            res.status(200).json({ message: "Utilisateur supprimé de la liste des participants avec succès" }).end();
+            res.status(200).json({ message: "Utilisateur supprimé de la liste des participants avec succès" });
         } catch (error) {
             console.error("Erreur lors de la suppression de l'utilisateur de la liste des participants :", error);
-            res.status(500).json({ error: "Erreur interne du serveur" }).end();
+            res.status(500).json({ error: "Erreur interne du serveur" });
         }
     };
 
@@ -269,7 +263,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       const event = await Event.findById(eventId);
 
       if (!event) {
-        return res.status(404).json({ message: "Événement non trouvé" }).end();
+        return res.status(404).json({ message: "Événement non trouvé" });
       }
 
       // Calculer le nombre de places restantes
@@ -279,7 +273,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       res.status(200).json({ remainingSeats });
     } catch (error) {
       console.error("Erreur lors du calcul des places restantes :", error);
-      res.status(500).json({ error: "Erreur interne du serveur" }).end();
+      res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
 
@@ -298,7 +292,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       
       // Vérifier que la note est dans la plage autorisée (1 à 5)
       if (rating < 1 || rating > 5) {
-        return res.status(400).json({ message: "La note doit être comprise entre 1 et 5" }).end();
+        return res.status(400).json({ message: "La note doit être comprise entre 1 et 5" });
       }
 
 
@@ -306,7 +300,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       const event = await Event.findById(eventId);
 
       if (!event) {
-        return res.status(404).json({ message: "Événement non trouvé" }).end();
+        return res.status(404).json({ message: "Événement non trouvé" });
       }
 
 
@@ -317,14 +311,14 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
 
 
       if (event.end_date > currentDate) {
-        return res.status(400).json({ message: "Vous ne pouvez pas encore noter cet événement que après ça fin" }).end();
+        return res.status(400).json({ message: "Vous ne pouvez pas encore noter cet événement que après ça fin" });
       }
 
       // Trouver le participant dans la liste des participants de l'événement
       const participant = event.participants.find((participant) => participant.user_id.toString() === userId);
 
       if (!participant) {
-        return res.status(404).json({ message: "Vous êtes pas participez à cet événement" }).end();
+        return res.status(404).json({ message: "Vous êtes pas participez à cet événement" });
       }
 
       // Mettre à jour la note du participant
@@ -333,11 +327,10 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
       // Sauvegarder les modifications
       await event.save();
 
-      return res.status(200).json({ message: "Votre note a été enregistrée avec succès" }).end();
-      next();
+      return res.status(200).json({ message: "Votre note a été enregistrée avec succès" });
     } catch (error) {
       console.error("Erreur lors de la notation de l'événement :", error);
-      res.status(500).json({ error: "Erreur interne du serveur" }).end();
+      res.status(500).json({ error: "Erreur interne du serveur" });
     }
   };
 }

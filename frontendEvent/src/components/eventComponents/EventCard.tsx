@@ -92,7 +92,6 @@ const EventCard: React.FC = () => {
                 event._id === updatedEvent._id ? updatedEvent : event
             );
             setEvents(updatedEvents);
-            window.location.reload();
         } catch (error) {
             console.error(error);
         }
