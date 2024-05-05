@@ -33,7 +33,7 @@ const UserCard: React.FC = () => {
     };
 
     fetchUsers();
-  }, []);
+  }, [users]);
 
   const handleDelete = async (_id: string) => {
     try {

@@ -4,7 +4,6 @@ import { Button, Form } from "react-bootstrap";
 export type EventSearchParams = {
     type?: string;
     startDate?: Date;
-    // Ajoutez d'autres paramètres de recherche au besoin
 };
  
 const EventSearch: React.FC<{ onSearch: (searchParams: EventSearchParams) => void }> = ({ onSearch }) => {
