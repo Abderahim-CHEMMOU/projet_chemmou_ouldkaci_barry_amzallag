@@ -109,11 +109,17 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
      */
     create = async (req: Request, res: Response, next: NextFunction) => {
         try {
+          const userId = req.params.userId;
             const validationResult = eventJoiSchema.validate(req.body);
             if (validationResult.error) {
                 return res.status(400).json({ message: validationResult.error.details[0].message });
             }
             const event = await Event.create(req.body);
+             // Vérifie si l'utilisateur existe dans la base de données
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Utilisateur n'existe pas dans la base de données" });
+      }
             res.status(201).json(event);
         } catch (error) {
             this.handleError(res, error);
@@ -128,8 +134,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
  
   update = async (req: Request, res: Response, next: NextFunction) => {
     try {
-
-        
+      const userId = req.params.userId;
         const updatedEvent = await Event.findByIdAndUpdate(
             req.params.id,
             req.body,
@@ -142,7 +147,12 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
         if (validationResult.error) {
           return res.status(400).json({ message: validationResult.error.details[0].message });
         }
-        res.status(200).json(updatedEvent);
+         // Vérifie si l'utilisateur existe dans la base de données
+      const user = await User.findById(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Utilisateur n'existe pas dans la base de données" });
+      }
+        res.status(200).send(updatedEvent);
     } catch (error) {
       this.handleError(res, error);
     }
