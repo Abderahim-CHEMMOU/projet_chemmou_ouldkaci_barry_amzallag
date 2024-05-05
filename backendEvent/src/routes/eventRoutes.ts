@@ -16,4 +16,5 @@ export const setEventRouting = (app) => {
   app.delete(`/${endpoint}/:id/participant/:userId`, eventController.removeParticipant);
   app.get(`/${endpoint}/remainingSeats/:id`, eventController.calculateRemainingSeats);
   app.patch(`/${endpoint}/:id/note/:userId`, eventController.rateEvent);
-};
+
+}

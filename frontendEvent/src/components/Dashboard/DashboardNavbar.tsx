@@ -4,7 +4,7 @@ import { Button, Container, Nav, Navbar, Modal, Form } from 'react-bootstrap';
 import CreateUser from '../../Pages/CreateUser';
 import { Link } from 'react-router-dom';
 
-const Dashboard = () => {
+const DashboardNavbar = () => {
     const [showCreateUserModal, setShowCreateUserModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [username, setUsername] = useState('');
@@ -29,6 +29,7 @@ const Dashboard = () => {
     const handleLogin = () => {
         console.log('Connexion en cours...');
     };
+
 
     return (
         <>
@@ -87,4 +88,6 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+
+export default DashboardNavbar;
+
