@@ -40,6 +40,7 @@ const DashboardNavbar = () => {
 
     const closeModal = () => {
         setShowModal(false);
+    window.location.reload();
         // Your implementation here
     };
 
