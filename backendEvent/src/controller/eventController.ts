@@ -145,7 +145,7 @@ findById = async (req: Request, res: Response, next: NextFunction) => {
         if (validationResult.error) {
           return res.status(400).json({ message: validationResult.error.details[0].message }).end();
         }
-        res.status(200).json(updatedEvent).end();
+        res.status(200).json(updatedEvent).send(updatedEvent).end();
         next();
     } catch (error) {
       this.handleError(res, error);
