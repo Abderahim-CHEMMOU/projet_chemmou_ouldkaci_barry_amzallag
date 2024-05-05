@@ -31,10 +31,18 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete, onUpdate }) => {
         handleClose();
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     const { name, value } = e.target;
+    //     setFormData({ ...formData, [name]: value });
+    // };
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-    };
+        setFormData({
+          ...formData,
+          [name]: value
+        });
+      };
 
 
 // coonvertir au type date pour comparer
@@ -135,15 +143,14 @@ const endDate = new Date(event.end_date);
                                 onChange={handleChange} 
                             />
                         </Form.Group>
-                        <Form.Group controlId="formType">
-                            <Form.Label>Type</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="type" 
-                                value={formData.type} 
-                                onChange={handleChange} 
-                            />
-                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="type">
+              <Form.Label>Type</Form.Label>
+              <Form.Select name="type" value={formData.type} onChange={handleChange}>
+                <option value="conférence">Conférence</option>
+                <option value="concert">Concert</option>
+                <option value="réunion privée">Réunion privée</option>
+              </Form.Select>
+            </Form.Group>
                         <Form.Group controlId="formMaxParticipants">
                             <Form.Label>Max Participants</Form.Label>
                             <Form.Control 

@@ -3,12 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container, Nav, Navbar, Modal, Form } from 'react-bootstrap';
 import CreateUser from '../../Pages/CreateUser';
 import { Link } from 'react-router-dom';
+import CreateEvent from "../../Pages/CreateEvent";
+
 
 const DashboardNavbar = () => {
     const [showCreateUserModal, setShowCreateUserModal] = useState(false);
     const [showLoginModal, setShowLoginModal] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const handleOpenCreateUserModal = () => {
         setShowCreateUserModal(true);
@@ -30,6 +33,15 @@ const DashboardNavbar = () => {
         console.log('Connexion en cours...');
     };
 
+    
+    const openModal = () => {
+        setShowModal(true);
+    };
+
+    const closeModal = () => {
+        setShowModal(false);
+        // Your implementation here
+    };
 
     return (
         <>
@@ -40,8 +52,10 @@ const DashboardNavbar = () => {
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }}>
                             <Nav.Link href="#manage-events">Manage Events</Nav.Link>
-                            <Nav.Link href="/create-event">Create Event</Nav.Link>
                             <Nav.Link onClick={handleOpenLoginModal}>Login</Nav.Link>
+                            <Button variant="primary" onClick={() => openModal()}>
+                                Créer un événement
+                            </Button>
                         </Nav>
                         <Nav className="ml-auto">
                             <Button variant="outline-light" onClick={handleOpenCreateUserModal}>Create User</Button>
@@ -51,7 +65,12 @@ const DashboardNavbar = () => {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
-
+            {showModal && 
+            <CreateEvent 
+              id={""} 
+              showModal={showModal}   
+              setShowModal={closeModal} 
+            />}
             <Modal show={showCreateUserModal} onHide={handleCloseCreateUserModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create User</Modal.Title>
