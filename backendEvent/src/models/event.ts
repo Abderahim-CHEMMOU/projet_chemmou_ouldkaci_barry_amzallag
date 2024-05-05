@@ -22,8 +22,7 @@ export const eventJoiSchema = Joi.object({
   description: Joi.string().required(),
   start_date: Joi.date().min('now').required(), // start_date doit être supérieur ou égal à la date courante
   end_date: Joi.date().min(Joi.ref('start_date', { adjust: (value) => new Date(value).getTime() + 30 * 60 * 1000 })).required().messages({
-    "date.min": "\"end_date\" doit être supérieur de 30 minutes à \"ref:start_date\"",
-    "date.ref": "\"end_date\" doit être supérieur à \"ref:start_date\""
+    "date.min": "\"end_date\" doit être supérieur de 30 minutes à \"ref:start_date\""
   }),
   location: Joi.string().required(),
   image: Joi.string(),
