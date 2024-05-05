@@ -36,6 +36,11 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete, onUpdate }) => {
         setFormData({ ...formData, [name]: value });
     };
 
+
+// coonvertir au type date pour comparer
+const endDate = new Date(event.end_date);
+
+
     return (
         <>
             <Card className="event-card" onClick={handleEdit}>
@@ -62,7 +67,7 @@ const EventItem: React.FC<EventItemProps> = ({ event, onDelete, onUpdate }) => {
                     <Card.Text>
                         <strong>Type:</strong> {event.type}
                     </Card.Text>
-                    {event.average_rating && event.end_date < new Date() &&(
+                    {event.average_rating > 0 && endDate < new Date() &&(
                     <Card.Text>
                         <strong>Note:</strong> {event.average_rating}
                     </Card.Text>
