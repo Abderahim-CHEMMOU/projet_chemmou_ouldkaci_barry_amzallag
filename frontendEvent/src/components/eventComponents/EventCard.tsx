@@ -129,15 +129,6 @@ const EventCard: React.FC = () => {
 
     return (
         <Container className="event-list-container">
-            <Button variant="primary" onClick={() => openModal()}>
-                Créer un événement
-            </Button>
-            {showModal && 
-            <CreateEvent 
-              id={""} 
-              showModal={showModal}   
-              setShowModal={closeModal} 
-            />}
             <h1 className="mb-4 text-center event-list-title">Liste des événements</h1>
             <EventSearch onSearch={(searchParams) => console.log(searchParams)} />
             <Row xs={1} md={2} lg={3} className="g-4">
