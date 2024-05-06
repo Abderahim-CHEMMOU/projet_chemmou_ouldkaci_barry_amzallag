@@ -1,49 +1,62 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
-export type EventSearchParams = {
-    type?: string;
-    startDate?: Date;
+type EventSearchParams = {
+    type: string;
+    endDate: string;
 };
 
+type EventSearchProps = {
+    onSearch: (searchParams: EventSearchParams) => void;
+};
 
-const EventSearch: React.FC<{ onSearch: (searchParams: EventSearchParams) => void }> = ({ onSearch }) => {
-    const [searchParams, setSearchParams] = useState<EventSearchParams>({});
+const EventSearch: React.FC<EventSearchProps> = ({ onSearch }) => {
+    const [searchParams, setSearchParams] = useState<EventSearchParams>({
+        type: "",
+        endDate: "",
+    });
 
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setSearchParams({
+            ...searchParams,
+            [name]: value
+        });
+    };
 
-    const handleSearch = () => {
-        // Appel de la fonction de recherche avec les paramètres actuels
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
         onSearch(searchParams);
     };
 
-
-    const handleChangeType = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchParams({ ...searchParams, type: event.target.value });
-    };
-
-    const handleChangeStartDate = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchParams({ ...searchParams, startDate: new Date(event.target.value) });
-    };
-
-
     return (
-        <Form>
-            <Form.Group className="mb-3" controlId="formEventType">
-                <Form.Label>Type:</Form.Label>
-                <Form.Control type="text" placeholder="Enter event type" onChange={handleChangeType} />
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="formType">
+                <Form.Label>Type</Form.Label>
+                <Form.Select
+                    as="select"
+                    name="type"
+                    onChange={handleChange as React.ChangeEventHandler<HTMLSelectElement>}
+                >
+                    <option value="">Tous</option>
+                    <option value="conférence">Conférence</option>
+                    <option value="concert">Concert</option>
+                    <option value="réunion privée">Réunion privée</option>
+                </Form.Select>
             </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formEventStartDate">
-                <Form.Label>Start Date:</Form.Label>
-                <Form.Control type="date" onChange={handleChangeStartDate} />
+            <Form.Group controlId="formEndDate">
+                <Form.Label>Date de fin</Form.Label>
+                <Form.Control
+                    type="date"
+                    name="endDate"
+                    onChange={handleChange as React.ChangeEventHandler<HTMLInputElement>}
+                />
             </Form.Group>
-
-            <Button variant="primary" onClick={handleSearch}>
-                Search
+            <Button variant="primary" type="submit">
+                Rechercher
             </Button>
         </Form>
     );
 };
 
 export default EventSearch;
-
